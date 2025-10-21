@@ -1,184 +1,88 @@
-# T-Students FITDNU: Student Behavior Detection (Single-Camera)
-
-> A single–ceiling–camera classroom dataset for student behavior detection, designed for practical, real-time deployment.
-
-**Dataset page:** [Link](https://universe.roboflow.com/tstudentsfitdnu/t-students-fitdnu/dataset/1)
+# T-Students FITDNU — A Classroom Student Behavior Detection Dataset
 
 ---
+## 1) Introduction
 
-## 1) Overview
+**T-Students FITDNU** is a dataset for object/behavior detection in classroom environments, collected using **a single ceiling-mounted camera** (1080p@25fps) during real class sessions (morning/afternoon). The dataset emphasizes **small objects** (phones, computers) and **occlusions** due to crowded classrooms, making it valuable for evaluating **YOLO models** in real-world deployment scenarios.
 
-- **Real classroom, single camera**: collected from a fixed dome camera mounted on the ceiling (1080p @ 25fps) across multiple sessions (morning/afternoon) to capture lighting and layout diversity.  
-- **9 classes**: **7 behaviors** (*using_phone, using_computer, sleeping, turning_left, turning_right, raising_hand, writing*) and **2 objects** (*phone, computer*).  
-- **Scale**: **3,351 images** and **126,429 bounding boxes**, with many small objects and partial occlusions.  
-- **Annotation pipeline**: manual → assisted (detector-aided) → QC + augmentations.  
-- **Goal**: enable research and real-time deployments in classrooms using a **single ceiling camera**.
+- **9 classes:** `using_phone`, `using_computer`, `sleeping`, `turning_left`, `turning_right`, `raising_hand`, `writing`, `phone`, `computer`.
+- **Scale:** **3,351 images**, **126,429** bounding boxes.
+- **Goal:** Serve research and real-time demo purposes from a **single ceiling viewpoint**.
 
 ---
-
-## 2) Class Exemplars (drop-in image)
-
-> Replace or keep the following figure to illustrate the 9 classes (2 objects + 7 behaviors).
+## 2) Class Distribution
 
 <p align="center">
-  <img src="./class_examples.png" alt="Class exemplars for phone, computer, and behaviors" width="720"/>
+  <img src="assets/class_examples.png" alt="Example for each class" width="720"/>
+  <br/>
 </p>
 
----
+**Bounding box distribution by class:**
 
-## 3) Access & Download
+| No. | Class           | # of bbox |
+|---:|------------------|----------:|
+| 1 | Computer         | 20,100 |
+| 2 | Phone            | 45,910 |
+| 3 | Raising Hand     | 318    |
+| 4 | Sleeping         | 4,826  |
+| 5 | Turning Left     | 9,720  |
+| 6 | Turning Right    | 9,222  |
+| 7 | Using Computer   | 8,412  |
+| 8 | Using Phone      | 23,709 |
+| 9 | Writing          | 4,212  |
 
-**Roboflow Universe (recommended):** open the dataset page (**[Link](https://universe.roboflow.com/tstudentsfitdnu/t-students-fitdnu/dataset/1)**), choose a **Version** and **Export Format** (YOLOv5/YOLOv8/COCO JSON/VOC…), and download via UI or API.
-
-**Python quick start (exact snippet)**
-```python
-# Install Roboflow
-!pip install roboflow
-
-# Download the dataset (YOLOv8 format)
-from roboflow import Roboflow
-rf = Roboflow(api_key="I3FNHTRuP6LdJ2WMXWqz")
-project = rf.workspace("tstudentsfitdnu").project("t-students-fitdnu")
-version = project.version(1)
-dataset = version.download("yolov8")
-```
+> The dataset is **intentionally imbalanced** to reflect natural frequency — useful for Focal Loss, re-weighting, oversampling, copy-paste, etc.  
+**Roboflow Universe:** open the dataset page (**[Link](https://universe.roboflow.com/tstudentsfitdnu/t-students-fitdnu/dataset/1)**), choose a **Version** and **Export Format** (YOLOv5/YOLOv8/COCO JSON/VOC…), and download via UI or API.
 
 ---
+## 3) Model Training Results
 
-## 4) Labels & Format
+| Activity        | Model        | Precision | Recall | mAP@0.5 | mAP@[0.5:0.95] |
+|-----------------|--------------|----------:|------:|--------:|---------------:|
+| **Phone**           | Faster R-CNN | 31.4 | 38.9 | 7.8  | 31.4 |
+|                   | YOLOv7       | 86.8 | 77.9 | 83.2 | 42.1 |
+|                   | YOLOv8l      | **89.6** | **78.9** | **87.9** | **43.7** |
+|                   | YOLOv12s     | 86.2 | 62.0 | 73.3 | 43.7 |
+| **Using Phone**    | YOLOv7       | 92.1 | 94.9 | 96.9 | 67.1 |
+|                   | YOLOv8l      | **95.5** | **95.8** | **97.7** | **81.0** |
+|                   | YOLOv12s     | 87.8 | 92.8 | 93.6 | 67.1 |
+| **Computer**       | Faster R-CNN | 58.6 | 66.9 | 15.7 | 58.6 |
+|                   | YOLOv7       | 94.1 | 96.6 | 97.0 | 66.1 |
+|                   | YOLOv8l      | **96.4** | **98.2** | **98.6** | **79.1** |
+|                   | YOLOv12s     | 93.6 | 96.5 | 96.5 | 70.5 |
+| **Turning Left**   | Faster R-CNN | 43.4 | 54.3 | 27.6 | 43.4 |
+|                   | YOLOv7       | 91.6 | 91.4 | 96.2 | 61.8 |
+|                   | YOLOv8l      | **94.8** | **95.7** | **97.5** | **80.7** |
+|                   | YOLOv12s     | 84.3 | 85.3 | 88.9 | 58.7 |
+| **Turning Right**  | Faster R-CNN | 40.3 | 51.3 | 28.4 | 40.3 |
+|                   | YOLOv7       | 88.2 | 90.7 | 94.4 | 59.9 |
+|                   | YOLOv8l      | **94.1** | **93.4** | **96.4** | **78.8** |
+|                   | YOLOv12s     | 83.6 | 83.7 | 87.6 | 58.6 |
+| **Using Computer** | Faster R-CNN | 54.4 | 64.2 | 23.3 | 54.4 |
+|                   | YOLOv7       | 87.0 | 96.3 | 96.3 | 69.7 |
+|                   | YOLOv8l      | **95.2** | **94.9** | **97.6** | **82.6** |
+|                   | YOLOv12s     | 85.2 | 90.2 | 92.0 | 69.1 |
+| **Sleeping**       | Faster R-CNN | 55.9 | 63.4 | 51.0 | 55.9 |
+|                   | YOLOv7       | 92.4 | 96.4 | 96.1 | 65.8 |
+|                   | YOLOv8l      | **96.5** | **98.8** | **98.9** | **82.6** |
+|                   | YOLOv12s     | 91.7 | 92.4 | 96.4 | 69.7 |
+| **Writing**        | Faster R-CNN | 48.2 | 57.4 | 40.7 | 48.2 |
+|                   | YOLOv7       | 89.7 | 92.7 | 95.5 | 63.3 |
+|                   | YOLOv8l      | **93.8** | **93.1** | **95.6** | **78.2** |
+|                   | YOLOv12s     | 83.4 | 86.9 | 88.0 | 48.4 |
+| **Raising Hand**   | Faster R-CNN | 25.5 | 33.9 | 39.9 | 25.5 |
+|                   | YOLOv7       | **90.9** | **83.1** | **87.6** | **70.3** |
+|                   | YOLOv8l      | 84.4 | 96.2 | 95.7 | 70.3 |
+|                   | YOLOv12s     | 61.2 | 34.6 | 52.9 | 39.0 |
 
-### 4.1 Class list
-```text
-Behavior: using_phone, using_computer, sleeping, turning_left, turning_right, raising_hand, writing
-Object:   phone, computer
-```
-
-### 4.2 Labeling rules (recommended)
-- **Behavior boxes** cover the **interaction region** that best expresses the behavior (e.g., hands + upper body for writing/raising_hand).  
-- **Object boxes** tightly fit the physical object (e.g., phone/laptop).  
-- Behavior and object boxes may **overlap** and are kept **separate** (do not multi-label a single box).  
-- Export to YOLO/COCO/VOC via Roboflow as needed.
-
----
-
-## 5) Dataset Structure (YOLO example)
-
-```
-T-Students-FITDNU/
-├─ images/
-│  ├─ train/  *.jpg|png
-│  ├─ val/    *.jpg|png
-│  └─ test/   *.jpg|png
-└─ labels/
-   ├─ train/  *.txt
-   ├─ val/    *.txt
-   └─ test/   *.txt
-```
-
-> **Splits:** Publish train/val/test counts and the **split policy** (e.g., by session/class/time) to avoid leakage and to mirror deployment conditions.
-
----
-
-## 6) Fast Training with Ultralytics YOLO
-
-### 6.1 Install
-```bash
-pip install ultralytics
-```
-
-### 6.2 `data.yaml` (example)
-```yaml
-# data.yaml
-path: /path/to/T-Students-FITDNU
-train: images/train
-val:   images/val
-test:  images/test
-names:
-  - using_phone
-  - using_computer
-  - sleeping
-  - turning_left
-  - turning_right
-  - raising_hand
-  - writing
-  - phone
-  - computer
-```
-
-### 6.3 Commands
-```bash
-# Train (choose imgsz 640/960/1280 for the mAP–speed trade-off)
-yolo detect train data=data.yaml model=yolov8m.pt imgsz=960 epochs=100 batch=16 amp=True
-
-# Evaluate
-yolo detect val data=data.yaml model=runs/detect/train/weights/best.pt
-
-# Inference
-yolo detect predict model=runs/detect/train/weights/best.pt source=path/to/images
-```
-
-### 6.4 Practical tips
-- **Class imbalance**: consider class weights, Focal Loss, Repeat Factor Sampling, and controlled copy-paste/mosaic.  
-- **Overlaps/NMS**: try Soft-NMS or DIoU-NMS when behavior & object boxes overlap frequently.  
-- **Resolution**: experiment with 640/960/1280.  
-- **Temporal smoothing (optional)**: lightweight tracking (e.g., BYTETrack) can stabilize brief behaviors like *raising_hand*.
+### 🧠 General Observations
+- **YOLOv8l** achieves the **highest overall mAP@[0.5:0.95]**, especially excelling in subtle behaviors or small objects (*sleeping*, *turning_left/right*, *using_computer*).
+- **YOLOv7** performs well on frequent classes (*using_phone*), but performance drops on rare ones (*raising_hand*).
+- **YOLOv12s** is a **lightweight and fast** option, ideal for real-time deployment.
+- **Faster R-CNN** struggles with **occlusion and crowded classroom scenes**, leading to low mAP in *phone* and *raising_hand* classes.
 
 ---
+## 4) Contact
 
-## 7) Benchmarks (paper summary)
-
-- Evaluated **YOLOv7**, **YOLOv8l**, **YOLOv12s**, and **Faster R-CNN** on 9 classes.  
-- **YOLOv8l** provided the best overall balance of accuracy and robustness, especially for subtle behaviors and small objects.  
-- *raising_hand* remains challenging due to rarity, small motion cues, and frequent occlusions.  
-- A real-time prototype runs at **~17 FPS** on a common GPU in a multi-threaded pipeline (capture → inference → web UI).
-
-> When releasing checkpoints, include training settings (optimizer, LR schedule, epochs, seed), conf/NMS thresholds, and augmentation details to ensure reproducibility.
-
----
-
-## 8) Real-Time Deployment (suggested)
-
-- Input: **RTSP** from the ceiling camera → YOLO inference → **Web UI** (MJPEG/WebSocket).  
-- Throughput: consider TensorRT/ONNX Runtime, FP16, pinned memory, and multi-threaded I/O.  
-- Measure and report **latency breakdown** (capture/infer/encode) and **FPS** per configuration.
-
----
-
-## 9) License & Ethics
-
-- **License**: e.g., CC BY-NC 4.0 / Academic-Only (update to your official policy).  
-- **Privacy**: anonymize (blur) faces in sample images; ensure usage complies with institutional ethics approvals.  
-- **Commercial use**: request permission from the maintainers if needed.
-
----
-
-## 10) Roadmap
-
-- [ ] Publish official **train/val/test** split and session/time-based split policy.  
-- [ ] Release **checkpoints** and training/evaluation scripts.  
-- [ ] Add **per-class PR curves**, **confusion matrix**, and **FPS/latency** reports.  
-- [ ] Explore remedies for rare classes (Focal Loss, re-weighting, copy-paste).
-
----
-
-## 11) Citation
-
-If you use **T-Students FITDNU**, please cite the paper/dataset (update with your official venue details when available).
-
-```bibtex
-@inproceedings{tran2025_tstudents_fitdnu,
-  title        = {Systematic Evaluation of YOLO in Student Behavior Detection - A New Dataset},
-  author       = {Tran, Anh Tu and Nguyen, Thai Khanh and Nguyen, Trung Thanh and Tuan, Anh Ha and Le, Trung Hieu},
-  booktitle    = {ISCIT},
-  year         = {2025},
-  howpublished = {Dataset on Roboflow Universe (see README dataset page: Link)}
-}
-```
-
----
-
-## 12) Contact
-
-- **Maintainer**: Trần Anh Tú  
-- **Email**: tu05062005@gmail.com  
-- Issues/Discussion: open GitHub Issues for your repo or use the Roboflow Universe page: [Link](https://universe.roboflow.com/tstudentsfitdnu/t-students-fitdnu/dataset/1)
+- Dataset/Paper: **tu05062005@gmail.com**
+- For technical issues: open an **Issue** in this repository.
