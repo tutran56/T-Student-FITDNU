@@ -13,6 +13,7 @@
   <img src="Behavior and objects.png" alt="Example for each class" width="500"/>
   <br/>
 </p>
+<div align="center">
 
 **Bounding box distribution by class:**
 
@@ -27,6 +28,9 @@
 | 7 | Using Computer   | 8,412  |
 | 8 | Using Phone      | 23,709 |
 | 9 | Writing          | 4,212  |
+
+</div>
+
 
 > The dataset is **intentionally imbalanced** to reflect natural frequency — useful for Focal Loss, re-weighting, oversampling, copy-paste, etc.  
 **Roboflow Universe:** open the dataset page (**[Link](https://universe.roboflow.com/tstudentsfitdnu/t-students-fitdnu/dataset/1)**), choose a **Version** and **Export Format** (YOLOv5/YOLOv8/COCO JSON/VOC…), and download via UI or API.
