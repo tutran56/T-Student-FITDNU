@@ -1,6 +1,4 @@
 # T-Students FITDNU — A Classroom Student Behavior Detection Dataset
-
----
 ## 1) Introduction
 
 **T-Students FITDNU** is a dataset for object/behavior detection in classroom environments, collected using **a single ceiling-mounted camera** (1080p@25fps) during real class sessions (morning/afternoon). The dataset emphasizes **small objects** (phones, computers) and **occlusions** due to crowded classrooms, making it valuable for evaluating **YOLO models** in real-world deployment scenarios.
@@ -9,11 +7,10 @@
 - **Scale:** **3,351 images**, **126,429** bounding boxes.
 - **Goal:** Serve research and real-time demo purposes from a **single ceiling viewpoint**.
 
----
 ## 2) Class Distribution
 
 <p align="center">
-  <img src="Behavior and objects.png" alt="Example for each class" width="720"/>
+  <img src="Behavior and objects.png" alt="Example for each class" width="500"/>
   <br/>
 </p>
 
@@ -34,7 +31,6 @@
 > The dataset is **intentionally imbalanced** to reflect natural frequency — useful for Focal Loss, re-weighting, oversampling, copy-paste, etc.  
 **Roboflow Universe:** open the dataset page (**[Link](https://universe.roboflow.com/tstudentsfitdnu/t-students-fitdnu/dataset/1)**), choose a **Version** and **Export Format** (YOLOv5/YOLOv8/COCO JSON/VOC…), and download via UI or API.
 
----
 ## 3) Model Training Results
 
 | Activity        | Model        | Precision | Recall | mAP@0.5 | mAP@[0.5:0.95] |
@@ -81,7 +77,6 @@
 - **YOLOv12s** is a **lightweight and fast** option, ideal for real-time deployment.
 - **Faster R-CNN** struggles with **occlusion and crowded classroom scenes**, leading to low mAP in *phone* and *raising_hand* classes.
 
----
 ## 4) Contact
 
 - Dataset/Paper: **tu05062005@gmail.com**
