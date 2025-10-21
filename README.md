@@ -36,7 +36,7 @@
 **Roboflow Universe:** open the dataset page (**[Link](https://universe.roboflow.com/tstudentsfitdnu/t-students-fitdnu/dataset/1)**), choose a **Version** and **Export Format** (YOLOv5/YOLOv8/COCO JSON/VOC…), and download via UI or API.
 
 ## 3) Model Training Results
-<div align="center">
+
   
 | Activity        | Model        | Precision | Recall | mAP@0.5 | mAP@[0.5:0.95] |
 |-----------------|--------------|----------:|------:|--------:|---------------:|
@@ -76,7 +76,6 @@
 |                   | YOLOv8l      | 84.4 | 96.2 | 95.7 | 70.3 |
 |                   | YOLOv12s     | 61.2 | 34.6 | 52.9 | 39.0 |
 
-</div>
 ### General Observations
 - **YOLOv8l** achieves the **highest overall mAP@[0.5:0.95]**, especially excelling in subtle behaviors or small objects (*sleeping*, *turning_left/right*, *using_computer*).
 - **YOLOv7** performs well on frequent classes (*using_phone*), but performance drops on rare ones (*raising_hand*).
