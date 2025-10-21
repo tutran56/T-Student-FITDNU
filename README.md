@@ -75,7 +75,7 @@
 |                   | YOLOv8l      | 84.4 | 96.2 | 95.7 | 70.3 |
 |                   | YOLOv12s     | 61.2 | 34.6 | 52.9 | 39.0 |
 
-### 🧠 General Observations
+### General Observations
 - **YOLOv8l** achieves the **highest overall mAP@[0.5:0.95]**, especially excelling in subtle behaviors or small objects (*sleeping*, *turning_left/right*, *using_computer*).
 - **YOLOv7** performs well on frequent classes (*using_phone*), but performance drops on rare ones (*raising_hand*).
 - **YOLOv12s** is a **lightweight and fast** option, ideal for real-time deployment.
