@@ -13,7 +13,7 @@
 ## 2) Class Distribution
 
 <p align="center">
-  <img src="assets/class_examples.png" alt="Example for each class" width="720"/>
+  <img src="class_examples.png" alt="Example for each class" width="720"/>
   <br/>
 </p>
 
